@@ -60,3 +60,9 @@ Route::get('/login', function(){
 Route::get('/register', function(){
         return view('user.register');
 })->name('register');
+//admin
+Route::group(['prefix' => 'cp-admin'], function(){
+    Route::get('/', function(){
+        return view('admin.home');
+    });
+});

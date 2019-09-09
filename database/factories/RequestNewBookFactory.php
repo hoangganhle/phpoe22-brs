@@ -2,7 +2,7 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Model\RequestNewbook;
+use App\Models\RequestNewbook;
 use Faker\Generator as Faker;
 
 $factory->define(RequestNewbook::class, function (Faker $faker) {

@@ -2,7 +2,7 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Model\Rate;
+use App\Models\Rate;
 use Faker\Generator as Faker;
 
 $factory->define(Rate::class, function (Faker $faker) {

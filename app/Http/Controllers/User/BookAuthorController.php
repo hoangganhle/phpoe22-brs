@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\User;
 
-
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -24,7 +23,6 @@ class BookAuthorController extends Controller
         $books = Book::with('rates', 'publisher')
             ->whereIn('id', $bookAuthor)
             ->paginate(config('limitdata.category'));
-
 
         return view('user.book-author', compact('books', 'author'));
     }

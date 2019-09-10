@@ -5,7 +5,7 @@ return [
     'new' => 'New',
     'updated_books' => 'Updated Books',
     'the_highest' => 'The highest',
-    'vote_books' => 'Voted Books',
+    'viewed_books' => 'Viewed Books',
     'views' => 'views',
     'author' => 'author',
     'register' => 'Register',
@@ -55,5 +55,7 @@ return [
     'manage_profile' => 'manage profile',
     'new_pass' => 'Enter new password...',
     'confirm_pass' => 'Enter confirm password...',
+    'publisher' => 'publisher',
+    'no_rate' => '0 Rate',
 
 ];

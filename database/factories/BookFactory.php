@@ -9,11 +9,11 @@ $factory->define(Book::class, function (Faker $faker) {
     return [
         'title' => $faker->realText($maxNbChars = 100 , $indexSize = 1),
         'book_content' => $faker->paragraph($nbSentences = 5 , $variableNbSentences = true),
-        'image' => $faker->image,
+        'image' => $faker->imageUrl(300, 400, 'nature'),
         'price' => 0,
-        'number_page' => $faker->numberBetween($min = 500, $max = 1000),
+        'number_page' => $faker->numberBetween($min = 10, $max = 20),
         'view' => 0,
-        'publisher_id' => $faker->numberBetween($min = 1, $max = 10),
-        'category_id' => $faker->numberBetween($min = 1, $max = 10),
+        'publisher_id' => $faker->numberBetween($min = 1, $max = 5),
+        'category_id' => $faker->numberBetween($min = 1, $max = 5),
     ];
 });

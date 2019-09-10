@@ -11,7 +11,7 @@
             <div class="col-lg-8 d-none d-lg-block">
                 <nav class="mainmenu__nav">
                     <ul class="meninmenu d-flex justify-content-start">
-                        <li class="drop with--one--item"><a href="{{ route('home') }}">{{ trans('client.home') }}</a></li>
+                        <li class="drop with--one--item"><a href="{{ route('homepage') }}">{{ trans('client.home') }}</a></li>
                         <li class="drop"><a href="javascript: void(0)">{{ trans('client.books') }}</a>
                             <div class="megamenu mega03">
                                 <ul class="item item03">
@@ -35,8 +35,10 @@
                             </div>
                         </li>
                         <li><a href="{{ route('book-require') }}">{{ trans('client.your_require') }}</a></li>
-                        <li><a href="{{ route('login') }}">{{ trans('client.sign_in') }}</a></li>
-                        <li><a href="{{ route('register') }}">{{ trans('client.register') }}</a></li>
+                        @if (!Auth::check())
+                            <li><a href="{{ route('login') }}">{{ trans('client.sign_in') }}</a></li>
+                            <li><a href="{{ route('register') }}">{{ trans('client.register') }}</a></li>
+                        @endif
                     </ul>
                 </nav>
             </div>
@@ -47,23 +49,30 @@
                 </li>
                 <li class="history" title="{{ trans('client.history_activity') }}"><a class="fa fa-history mr-4" href="{{ route('activity') }}"></a></li>
             </li>
-            <li class="setting__bar__icon" title="{{ trans('client.manage_profile') }}"><a class="setting__active" href="#"></a>
-                <div class="searchbar__content setting__block">
-                    <div class="content-inner">
-                        <div class="switcher-currency">
-                            <strong class="label switcher-label">
-                                <span>{{ trans('client.your_profile') }}</span>
-                            </strong>
-                            <div class="switcher-options">
-                                <div class="switcher-currency-trigger">
-                                    <a class="currency-trigger" href="{{ route('profile-edit') }}">{{ trans('client.change_profile') }}</a>
-                                    <a class="currency-trigger" href="">{{ trans('client.logout') }}</a>
+            @if (Auth::check())
+                <li class="setting__bar__icon" title="{{ trans('client.manage_profile') }}"><a class="setting__active" href="#"></a>
+                    <div class="searchbar__content setting__block">
+                        <div class="content-inner">
+                            <div class="switcher-currency">
+                                <strong class="label switcher-label">
+                                    <span>{{ Auth::user()->name }}</span>
+                                </strong>
+                                <div class="switcher-options">
+                                    <div class="switcher-currency-trigger">
+                                        <a class="currency-trigger" href="{{ route('profile-edit') }}">{{ trans('client.change_profile') }}</a>
+                                        <a class="currency-trigger" href="{{ route('logout') }}">
+                                            {{ trans('Logout') }}
+                                        </a>
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST">
+                                            @csrf
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </li>
+                </li>
+            @endif
         </ul>
     </div>
 </div>

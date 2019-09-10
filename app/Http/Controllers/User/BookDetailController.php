@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\User;
 
-
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -11,7 +10,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\VoteRequest;
 use App\Models\Book;
 use App\Models\Rate;
-
 
 class BookDetailController extends Controller
 {
@@ -23,11 +21,16 @@ class BookDetailController extends Controller
         }catch (ModelNotFoundException $exception) {
             return view('errors.notfound');
         }
-        $userRateBook = Rate::where([
-            ['user_id', '=', 1],
-            ['book_id', '=', $id]
 
-        ])->first();
+        if (Auth::check()) {
+            $userRateBook = Rate::where([
+                ['user_id', '=', Auth::user()->id],
+                ['book_id', '=', $id],
+
+            ])->first();
+        }else {
+            $userRateBook = "";
+        }
 
         return view('user.book-detail', compact('book', 'userRateBook'));
     }
@@ -47,7 +50,7 @@ class BookDetailController extends Controller
     {
        $rate = new Rate;
        $rate->book_id = $id;
-       $rate->user_id = 1;
+       $rate->user_id = Auth::user()->id;
        $rate->stars = count($request->get('star'));
        $rate->save();
 

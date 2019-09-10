@@ -4,7 +4,7 @@
 <div class="container above">
     <div class="row ml-5">
         <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 text-center">
-            <img src="" alt="">
+            <img src="{{ $book->image }}" alt="">
             <h5 class="mt-3">{{ trans('votes') }}</h5>
             <p>
                 <i class="fa fa-star-o"></i>
@@ -17,13 +17,21 @@
 
         </div>
         <div class="col-xs-2 col-sm-2 col-md-2 col-lg-8 right ml-5">
-            <h3></h3>
-            <p>{{ trans('author') }}: <span class="text-secondary"></span></p>
-            <p>{{ trans('client.category') }}: <span class="text-secondary"></span></p>
-            <p>{{ trans('client.publisher') }}: <span class="text-secondary"></span></p>
-            <p>{{ trans('date') }}: <span class="text-secondary"></span></p>
+            <h3>{{ $book->title }}</h3>
+            <p>
+                {{ trans('author') }}:
+                <span class="text-secondary">
+                    @foreach ($book->authors as $author)
+                        {{ $author->author_name }},
+                    @endforeach
+                </span>
+            </p>
+            <p>{{ trans('client.category') }}: <span class="text-secondary">{{ $book->category->category_name }}</span></p>
+            <p>{{ trans('client.publisher') }}: <span class="text-secondary">{{ $book->publisher->publisher_name }}</span></p>
+            <p>{{ trans('date') }}: <span class="text-secondary">{{ $book->created_at }}</span></p>
             <a href="#" class="btn btn-sm btn-success mt-3">{{ trans('read_book') }}</a>
             <div class="description mt-3">
+                {{ $book->book_description }}
             </div>
         </div>
         <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">

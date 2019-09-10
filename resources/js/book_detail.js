@@ -10,3 +10,9 @@ CKEDITOR.replace('summary-ckeditor', {
     filebrowserUploadMethod: 'form',
 });
 
+$(document).ready(function() {
+    $('#sampleTable').DataTable( {
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        "pagingType": "full_numbers",
+    } );
+} );

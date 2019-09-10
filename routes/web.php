@@ -11,8 +11,6 @@
 |
 */
 
-
-//admin
 Route::group(['namespace' => 'Admin'], function () {
     Route::group(['prefix' => 'cp-admin'], function () {
         Route::resource('book', 'BookController');

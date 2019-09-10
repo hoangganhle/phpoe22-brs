@@ -4,6 +4,7 @@
 /public/assets
 /public/css
 /public/js
+/public/images/
 /storage/debugbar/
 /storage/*.key
 /vendor

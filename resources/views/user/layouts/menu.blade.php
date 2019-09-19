@@ -16,15 +16,21 @@
                             <div class="megamenu mega03">
                                 <ul class="item item03">
                                     <li class="title">{{ trans('client.category') }}</li>
-                                    <li><a href="{{ route('book-category') }}"><!-- Văn học --> </a></li>
+                                    @foreach ($bookCategories as $category)
+                                        <li><a href="{{ route('book-category', ['id' => $category->id]) }}">{{ $category->category_name }}</a></li>
+                                    @endforeach
                                 </ul>
                                 <ul class="item item03">
                                     <li class="title">{{ trans('client.author') }}</li>
-                                    <li><a href="{{ route('book-category') }}"><!-- Nguyễn Nhật Ánh --></a></li>
+                                    @foreach ($authors as $author)
+                                        <li><a href="{{ route('book-author', ['id' => $author->id]) }}">{{ $author->author_name }}</a></li>
+                                    @endforeach
                                 </ul>
                                 <ul class="item item03">
                                     <li class="title">{{ trans('client.publisher') }}</li>
-                                    <li><a href="{{ route('book-category') }}"><!-- NXB. Giáo dục --> </a></li>
+                                    @foreach ($publishers as $publisher)
+                                        <li><a href="{{ route('book-publisher', ['id' => $publisher->id]) }}">{{ $publisher->publisher_name }}</a></li>
+                                    @endforeach
                                 </ul>
                             </div>
                         </li>

@@ -57,5 +57,6 @@ return [
     'confirm_pass' => 'Enter confirm password...',
     'publisher' => 'publisher',
     'no_rate' => '0 Rate',
+    'notfound' => 'Cannot find data',
 
 ];

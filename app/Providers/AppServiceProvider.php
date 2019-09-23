@@ -27,6 +27,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         View::composer('user.layouts.menu', function ($view) {
+
             $bookCategories = Category::all();
             $authors = Author::all();
             $publishers = Publisher::all();

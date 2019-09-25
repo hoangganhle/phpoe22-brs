@@ -22,7 +22,7 @@
                     <a class="treeview-item" href="{{ route('book.create') }}"><i class="icon fa fa-circle-o"></i>{{ trans('admin.create') }}</a>
                 </li>
                 <li>
-                    <a class="treeview-item" href="" target="_blank" rel="noopener"><i class="icon fa fa-circle-o"></i> {{ trans('admin.require_newbook') }}</a>
+                    <a class="treeview-item" href="{{ route('editbook.index') }}" target="_blank" rel="noopener"><i class="icon fa fa-circle-o"></i> {{ trans('admin.require_newbook') }}</a>
                 </li>
             </ul>
         </li>

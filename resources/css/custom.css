@@ -91,10 +91,10 @@ h3.border_bottom {
     height: 300px;
 }
 th.sorting_asc {
-    width: 210px;
+    width: 110px;
 }
 th.sorting_bsc {
-    width: 180px;
+    width: 250px;
 }
 th.sorting {
     width: 100px;
@@ -136,4 +136,4 @@ label {
 }
 .logout-form {
     display: none;
-}
+

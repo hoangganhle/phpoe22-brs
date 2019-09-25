@@ -57,4 +57,11 @@ return [
     ],
     '10records' => '10',
     'author' => 'Author',
+    'book_name' => 'Name of Book',
+    'request_content' => 'Request Content',
+    'user_id' => 'User',
+    'status' => 'Status',
+    'close' => 'Close',
+    'resolve' => 'Resolve',
+    'processing' => 'Processing',
 ];

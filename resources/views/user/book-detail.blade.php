@@ -1,20 +1,31 @@
 @extends('user.layouts.master')
 @section('title', trans('detail'))
 @section('content')
-<div class="container above">
+<div class="container above detail_book">
     <div class="row ml-5">
         <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 text-center">
             <img src="{{ $book->image }}" alt="">
-            <h5 class="mt-3">{{ trans('votes') }}</h5>
-            <p>
-                <i class="fa fa-star-o"></i>
-                <i class="fa fa-star-o"></i>
-                <i class="fa fa-star-o"></i>
-                <i class="fa fa-star-o"></i>
-                <i class="fa fa-star-o"></i>
-            </p>
-            <p class="btn btn-sm btn-primary">{{ trans('client.send') }}</p>
-
+            <h5 class="mt-3">{{ trans('client.votes') }} {{ '(' . $book->rates->count() . ')' }}</h5>
+            @if (empty($userRateBook))
+            <form class="vote" action="{{ route('book-detail-vote', ['id' => $book->id]) }}" method="POST">
+                @csrf
+                <p>
+                    <input type="checkbox" name="star[]" value="1" class="star">
+                    <input type="checkbox" name="star[]" value="1" class="star">
+                    <input type="checkbox" name="star[]" value="1" class="star">
+                    <input type="checkbox" name="star[]" value="1" class="star">
+                    <input type="checkbox" name="star[]" value="1" class="star">
+                </p>
+                <button type="submit" class="btn btn-sm btn-primary mt-3">{{ trans('client.send') }}</button>
+                @if ($errors->has('star'))
+                    <div class="alert alert-danger mt-2">
+                       {{ $errors->first('star') }}
+                    </div>
+                @endif
+            </form>
+            @else
+                <i>{{ trans('client.you_are_voted') }} {{ $userRateBook->stars }} {{ trans('client.star_for_book') }}</i>
+            @endif
         </div>
         <div class="col-xs-2 col-sm-2 col-md-2 col-lg-8 right ml-5">
             <h3>{{ $book->title }}</h3>
@@ -29,7 +40,7 @@
             <p>{{ trans('client.category') }}: <span class="text-secondary">{{ $book->category->category_name }}</span></p>
             <p>{{ trans('client.publisher') }}: <span class="text-secondary">{{ $book->publisher->publisher_name }}</span></p>
             <p>{{ trans('date') }}: <span class="text-secondary">{{ $book->created_at }}</span></p>
-            <a href="#" class="btn btn-sm btn-success mt-3">{{ trans('read_book') }}</a>
+            <a href="{{ route('book-read', ['id' => $book->id]) }}" class="btn btn-sm btn-success mt-3">{{ trans('read_book') }}</a>
             <div class="description mt-3">
                 {{ $book->book_description }}
             </div>

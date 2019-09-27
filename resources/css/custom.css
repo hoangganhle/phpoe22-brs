@@ -120,3 +120,17 @@ label {
     font-weight: bold;
     font-size: 20px;
 }
+.container.detail_book .star {
+    visibility:hidden;
+    font-size:30px;
+    cursor:pointer;
+}
+.container.detail_book .star:before {
+   content: "\2606";
+   position: absolute;
+   visibility:visible;
+}
+.container.detail_book .star:checked:before {
+   content: "\2605";
+   position: absolute;
+}

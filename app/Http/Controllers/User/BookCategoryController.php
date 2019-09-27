@@ -11,6 +11,7 @@ class BookCategoryController extends Controller
 {
     public function index($id)
     {
+
         try {
             $category = Category::findOrFail($id);
         }catch (ModelNotFoundException $exception) {

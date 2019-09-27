@@ -24,7 +24,7 @@ return [
     'massage' => 'Massage',
     'send_to_admin' => 'Send to admin',
     'reading_book' => 'Your reading books',
-    'votes' => 'votes',
+    'votes' => 'voted by',
     'your_favorite_book' => 'Your favorite books',
     'send' => 'Send',
     'category' => 'Category',
@@ -58,5 +58,9 @@ return [
     'publisher' => 'publisher',
     'no_rate' => '0 Rate',
     'notfound' => 'Cannot find data',
+    'you_are_voted' => 'You are voted',
+    'star_for_book' => 'star for this book',
+    'choose_rate' => 'Please choose your rate',
+
 
 ];

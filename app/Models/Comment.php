@@ -22,6 +22,6 @@ class Comment extends Model
 
     public function review()
     {
-        return $this->belongTo(Review::class, 'review_id');
+        return $this->belongsTo(Review::class, 'review_id');
     }
 }

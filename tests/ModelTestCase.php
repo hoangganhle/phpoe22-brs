@@ -88,8 +88,4 @@ abstract class ModelTestCase extends TestCase
         $this->assertEquals($relatedPivotKey, $relation->getQualifiedRelatedPivotKeyName());
 
     }
-
-
-
-
 }

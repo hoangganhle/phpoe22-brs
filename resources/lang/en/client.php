@@ -61,6 +61,8 @@ return [
     'you_are_voted' => 'You are voted',
     'star_for_book' => 'star for this book',
     'choose_rate' => 'Please choose your rate',
-
+    'you_are_voted' => 'You are voted',
+    'star_for_book' => 'star for this book',
+    'login_to_rate' => 'Please Login to rate for this book',
 
 ];

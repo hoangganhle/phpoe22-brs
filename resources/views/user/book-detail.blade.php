@@ -6,25 +6,29 @@
         <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 text-center">
             <img src="{{ $book->image }}" alt="">
             <h5 class="mt-3">{{ trans('client.votes') }} {{ '(' . $book->rates->count() . ')' }}</h5>
-            @if (empty($userRateBook))
-            <form class="vote" action="{{ route('book-detail-vote', ['id' => $book->id]) }}" method="POST">
-                @csrf
-                <p>
-                    <input type="checkbox" name="star[]" value="1" class="star">
-                    <input type="checkbox" name="star[]" value="1" class="star">
-                    <input type="checkbox" name="star[]" value="1" class="star">
-                    <input type="checkbox" name="star[]" value="1" class="star">
-                    <input type="checkbox" name="star[]" value="1" class="star">
-                </p>
-                <button type="submit" class="btn btn-sm btn-primary mt-3">{{ trans('client.send') }}</button>
-                @if ($errors->has('star'))
-                    <div class="alert alert-danger mt-2">
-                       {{ $errors->first('star') }}
-                    </div>
+            @if (Auth::check())
+                @if (empty($userRateBook))
+                    <form class="vote" action="{{ route('book-detail-vote', ['id' => $book->id]) }}" method="POST">
+                        @csrf
+                        <p>
+                            <input type="checkbox" name="star[]" value="1" class="star">
+                            <input type="checkbox" name="star[]" value="1" class="star">
+                            <input type="checkbox" name="star[]" value="1" class="star">
+                            <input type="checkbox" name="star[]" value="1" class="star">
+                            <input type="checkbox" name="star[]" value="1" class="star">
+                        </p>
+                        <button type="submit" class="btn btn-sm btn-primary mt-3">{{ trans('client.send') }}</button>
+                        @if ($errors->has('star'))
+                            <div class="alert alert-danger mt-2">
+                               {{ $errors->first('star') }}
+                            </div>
+                        @endif
+                    </form>
+                @else
+                    <i>{{ trans('client.you_are_voted') }} {{ $userRateBook->stars }} {{ trans('client.star_for_book') }}</i>
                 @endif
-            </form>
             @else
-                <i>{{ trans('client.you_are_voted') }} {{ $userRateBook->stars }} {{ trans('client.star_for_book') }}</i>
+                <p><i>{{ trans('client.login_to_rate') }}</i></p>
             @endif
         </div>
         <div class="col-xs-2 col-sm-2 col-md-2 col-lg-8 right ml-5">

@@ -23,6 +23,7 @@ mix.js('resources/js/app.js', 'public/js')
         'public/assets/lib/js/plugins.js',
         'public/assets/lib/js/active.js',
         'resources/js/logout.js',
+        'resources/js/requestbook.js',
         'public/assets/lib/lib-admin/js/main.js',
         'public/assets/lib/lib-admin/js/plugins/pace.min.js',
         'public/assets/lib/lib-admin/js/plugins/chart.js',

@@ -33,4 +33,3 @@ mix.js('resources/js/app.js', 'public/js')
         'vendor/unisharp/laravel-ckeditor/ckeditor.js',
     ], 'public/js/custom.js')
     .sass('resources/sass/app.scss', 'public/css');
-

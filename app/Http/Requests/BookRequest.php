@@ -24,8 +24,8 @@ class BookRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|max:255|unique:books'. $this->id,
-            'book_content' => 'required|min:255',
+            'title' => 'required|max:255|unique:books',
+            'book_content' => 'required|min:1',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'price' => 'required|max:8',
             'number_page' => 'required',

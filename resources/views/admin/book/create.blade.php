@@ -40,7 +40,7 @@
                             <br>
                             <div class="col-lg-12">
                                 <label>{{ trans('admin.book_content') }}</label>
-                                <textarea class="form-control" id="editor1" name="book_content" placeholder="{{ trans('admin.book_content') }}"></textarea>
+                                <textarea class="form-control book_content" id="editor1" name="book_content" placeholder="{{ trans('admin.book_content') }}"></textarea>
                             </div>
                             <br>
                             <div class="col-lg-12">

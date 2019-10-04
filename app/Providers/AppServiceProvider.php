@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\View;
 use App\Models\Category;
 use App\Models\Author;
 use App\Models\Publisher;
+use Laravel\Dusk\DuskServiceProvider;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -35,6 +36,10 @@ class AppServiceProvider extends ServiceProvider
             \App\Repositories\Publisher\PublisherRepositoryInterface::class,
             \App\Repositories\Publisher\PublisherRepository::class
         );
+
+        if ($this->app->environment('local', 'testing')) {
+            $this->app->register(DuskServiceProvider::class);
+        }
     }
 
     /**

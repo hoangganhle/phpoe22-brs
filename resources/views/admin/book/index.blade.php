@@ -33,7 +33,7 @@
                                     @foreach ($book as $data)
                                     <tr role="row" class="odd">
                                         <td class="sorting_1">{{ $loop->iteration }}</td>
-                                        <td class="sorting_1"><a href="{{ route('book.show', ['book' => $data->id]) }}"> {{ $data->title }}</a></td>
+                                        <td class="sorting_1"><a class="button_id" href="{{ route('book.show', ['book' => $data->id]) }}"> {{ $data->title }}</a></td>
                                         <td class="sorting_1"><img class="book_img" src="{{ asset('images/' . $data->image) }}" alt=""></img></td>
                                         <td class="sorting_1">{{ $data->number_page }}</td>
                                         <td class="sorting_1">{{ $data->view }}</td>

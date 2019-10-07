@@ -7,11 +7,11 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Book;
+
 class BookCategoryController extends Controller
 {
     public function index($id)
     {
-
         try {
             $category = Category::findOrFail($id);
         }catch (ModelNotFoundException $exception) {
@@ -23,5 +23,6 @@ class BookCategoryController extends Controller
             ->paginate(config('limitdata.category'));
 
         return view('user.book-category', compact('category', 'books'));
+
     }
 }

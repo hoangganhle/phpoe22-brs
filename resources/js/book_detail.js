@@ -1,9 +1,10 @@
 $(document).ready(function() {
-    $('.reply_btn').click(function(event) {
+    $(document).on("click", ".reply_btn", function() {
         $('.reply').hide();
         var id = $(this).attr('id');
-        $('#reply'+id).show();
+        $('#reply' + id).show();
     });
+
 });
 CKEDITOR.replace('summary-ckeditor', {
     filebrowserUploadUrl: "{{ route('upload', ['_token' => csrf_token()]) }}",

@@ -58,51 +58,78 @@
 <div class="container under ml-5">
     <h4 class="ml-5 mb-5 mt-5">{{ trans('review') }}</h4>
     <div class="row ml-5">
-        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                        <img src="" alt="">
-                    </div>
-                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-10">
-                        <form action="">
-                             <textarea name=""></textarea>
-                        </form>
-                    </div>
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-right mt-2">
-                        <button type="submit" class="btn btn-primary">{{ trans('client.send') }}</button>
+        @if (Auth::check())
+            <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            @if (!empty(Auth::user()->avatar))
+                                <img src="{{ Auth::user()->avatar }}" alt="">
+                            @else
+                                <img src="{{ config('constant.avatar_empty') }}" alt="">
+                            @endif
+                        </div>
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-10">
+                            <form action="{{ route('book-detail-review', ['id' => $book->id]) }}" method="POST" id="reviewForm">
+                                @csrf
+                                <textarea name="review" id="review"></textarea>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-right mt-2">
+                                <a href="javascript:void(0)" class="btn btn-primary send_review" idBook="{{ $book->id }}">{{ trans('client.send') }}</a>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 mt-3 ">
-            <div class="container-fluid comment">
-                <div class="row mt-2">
-                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-1">
-                        <img src="" alt="">
-                    </div>
-                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-11">
-                        <p class="gmail_comment"><b></b></p>
-                        <div class="comment_content mt-1">
-                        </div>
-                        <p><span class="fa fa-thumbs-up"></span ><span class="fa fa-thumbs-down ml-3"></span><span class="ml-3 reply_btn" id="1">{{ trans('client.reply') }}</span></p>
-                        <div class="container-fluid reply" id="reply1">
-                            <div class="row">
-                                <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
-                                    <img src="" alt="">
+        @else
+            <p><i class="text-danger">{{ trans('client.login_to_review') }}</i></p>
+        @endif
+        <div class="container-fluid" id="all_reviews">
+            @foreach($reviews as $review)
+                <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 mt-3 ">
+                    <div class="container-fluid comment">
+                        <div class="row mt-2">
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-1">
+                                @if (!empty($review->user->avatar))
+                                    <img src="{{ $review->user->avatar }}" alt="">
+                                @else
+                                    <img src="{{ config('constant.avatar_empty') }}" alt="">
+                                @endif
+                            </div>
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-11">
+                                <p class="gmail_comment">
+                                    <b>{{ $review->user->email }}</b>
+                                    <span class="ml-3 text-secondary">{{ $review->created_at }}</span>
+                                </p>
+                                <div class="comment_content mt-1">
+                                    {{ $review->review_content }}
                                 </div>
-                                <div class="col-xs-1 col-sm-1 col-md-1 col-lg-11">
-                                    <textarea name=""></textarea>
-                                </div>
-                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-right mt-2">
-                                    <a href="#" class="btn btn-sm btn-primary">{{ trans('client.send') }}</a>
-                                    <a href="#" class="btn btn-sm btn-secondary">{{ trans('client.cancel') }}</a>
-                                </div>
+                                @if (Auth::check())
+                                    <p>
+                                        <span class="fa fa-thumbs-up"></span >
+                                        <span class="fa fa-thumbs-down ml-3"></span>
+                                        <span class="ml-3 reply_btn" id="{{ $review->id }}">{{ trans('client.reply') }}</span>
+                                    </p>
+                                    <div class="container-fluid reply" id="reply{{ $review->id }}">
+                                        <div class="row">
+                                            <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                                                <img src="" alt="">
+                                            </div>
+                                            <div class="col-xs-1 col-sm-1 col-md-1 col-lg-11">
+                                                <textarea name=""></textarea>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-right mt-2">
+                                                <a href="#" class="btn btn-sm btn-primary">{{ trans('client.send') }}</a>
+                                                <a href="#" class="btn btn-sm btn-secondary">{{ trans('client.cancel') }}</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            @endforeach
         </div>
     </div>
 </div>

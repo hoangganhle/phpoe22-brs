@@ -1,19 +1,17 @@
 <?php
-
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Book;
-use App\Models\Publisher;
-use App\Models\Category;
-use App\Models\Author;
-use App\Models\AuthorBook;
 use App\Http\Requests\BookRequest;
 use App\Http\Requests\UpdateBookRequest;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\LengthAwarePaginator;
+use App\Repositories\Author\AuthorRepositoryInterface;
+use App\Repositories\Book\BookRepositoryInterface;
+use App\Repositories\Category\CategoryRepositoryInterface;
+use App\Repositories\Publisher\PublisherRepositoryInterface;
 
 class BookController extends Controller
 {
@@ -22,10 +20,27 @@ class BookController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    protected $bookRepo;
+    protected $authorRepo;
+    protected $cateRepo;
+    protected $pubRepo;
+
+    public function __construct(
+            BookRepositoryInterface $bookRepo,
+            AuthorRepositoryInterface $authorRepo,
+            CategoryRepositoryInterface $cateRepo,
+            PublisherRepositoryInterface $pubRepo
+        )
+    {
+        $this->bookRepo = $bookRepo;
+        $this->authorRepo = $authorRepo;
+        $this->cateRepo = $cateRepo;
+        $this->pubRepo = $pubRepo;
+    }
+
     public function index()
     {
-        $book = new Book();
-        $book = Book::all();
+        $book = $this->bookRepo->getAll();
 
         return view('admin.book.index', compact('book'));
     }
@@ -37,10 +52,11 @@ class BookController extends Controller
      */
     public function create()
     {
-        $authors = Author::all();
-        $publishers = Publisher::all();
-        $categories = Category::all();
+        $authors = $this->authorRepo->getAll();
+        $publishers = $this->pubRepo->getAll();
+        $categories = $this->cateRepo->getAll();
         $result = compact('publishers', 'categories', 'authors');
+
         return view('admin.book.create', $result);
     }
 
@@ -52,19 +68,15 @@ class BookController extends Controller
      */
     public function store(BookRequest $request)
     {
-        $book = new Book();
         $data = $request->all();
-        $response = getDataFromRequest($data, $book);
-        $response = Book::create($book->getAttributes());
-        $authors = $request->get('author');
-        foreach ($authors as $key) {
-            AuthorBook::firstOrCreate([
-                'book_id' => $response->id,
-                'author_id' => $key,
-            ]);
+        $response = getDataFromRequest($data);
+        $book = $this->bookRepo->create($response);
+
+        foreach ($request->get('author') as $key) {
+            $book->authors()->attach($key);
         }
 
-        return redirect()->route('book.create')->with('status', trans('admin.add_success'));
+        return redirect()->route('book.index');
     }
 
     /**
@@ -75,7 +87,10 @@ class BookController extends Controller
      */
     public function show($book)
     {
-        $data = Book::findOrFail($book);
+        $data = $this->bookRepo->find($book);
+        if($data == false){
+            return view('errors.notfound');
+        }
 
         return view('admin.book.show', compact('data'));
     }
@@ -88,13 +103,16 @@ class BookController extends Controller
      */
     public function edit($book)
     {
-        $data = Book::findOrFail($book);
-        $publishers = Publisher::all();
-        $categories = Category::all();
-        $book_publisher = $data->publisher->id;
-        $book_category = $data->category->id;
-        $authors = Author::all();
-        $book_authors = $data->authors->pluck('id')->toArray();
+        $data = $this->bookRepo->find($book);
+        if($data == false){
+            return view('errors.notfound');
+        }
+        $publishers = $this->pubRepo->getAll();
+        $categories = $this->cateRepo->getAll();
+        $book_publisher = $this->bookRepo->findPublisherByBook($book);
+        $book_category = $this->bookRepo->findCategoryByBook($book);
+        $authors = $this->authorRepo->getAll();
+        $book_authors = $this->bookRepo->findAuthorByBook($book);
         $result = compact('data', 'categories', 'publishers', 'book_publisher', 'book_category', 'book_authors', 'authors');
 
         return view('admin.book.edit', $result);
@@ -109,17 +127,16 @@ class BookController extends Controller
      */
     public function update(UpdateBookRequest $request, $id)
     {
-        $book = Book::findOrFail($id);
-        $data = $request->all();
-        $response = getDataFromRequest($data, $book);
-        $updated = $book->update($response->getAttributes());
+        $book = $this->bookRepo->find($id);
+        if($book == false){
+            return view('errors.notfound');
+        }
         $book->authors()->detach();
-        $authors = $request->get('author');
-        foreach ($authors as $key) {
-            AuthorBook::firstOrCreate([
-                'book_id' => $response->id,
-                'author_id' => $key,
-            ]);
+        $data = $request->all();
+        $response = getDataFromRequest($data);
+        $updated = $this->bookRepo->update($id, $response);
+        foreach ($request->get('author') as $key) {
+            $book->authors()->attach($key);
         }
 
         return redirect()->route('book.index')->with('status', trans('admin.update_success'));
@@ -133,8 +150,11 @@ class BookController extends Controller
      */
     public function destroy($book)
     {
-        $data = Book::findOrFail($book);
-        $data->delete();
+        $book = $this->bookRepo->find($book);
+        if($book == false){
+            return view('errors.notfound');
+        }
+        $book = $this->bookRepo->delete($book);
 
         return redirect()->route('book.index')->with('status', trans('admin.delete_success'));
     }

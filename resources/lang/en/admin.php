@@ -64,4 +64,8 @@ return [
     'close' => 'Close',
     'resolve' => 'Resolve',
     'processing' => 'Processing',
+    'you_have' => 'You have',
+    'new_notice' => 'new notifications',
+    'see_all_notice' => 'See all notifications.',
+    'sent_request_add_new_book' => 'sent you a request add new book',
 ];

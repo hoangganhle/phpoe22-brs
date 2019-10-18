@@ -15,4 +15,12 @@ interface UserRepositoryInterface
 
     public function deleteNoticeIfSenderDeleteNotice($idNotice);
 
+    public function getRoles($id_users_hasrole);
+
+    public function checkMail($email);
+
+    public function createUser($request = []);
+
+    public function getRoleUser($id);
+
 }

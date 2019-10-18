@@ -4,6 +4,7 @@ namespace App\Repositories\User;
 use App\Repositories\BaseRepository;
 use App\Repositories\User\UserRepositoryInterface;
 use Auth;
+use Hash;
 
 class UserRepository extends BaseRepository implements UserRepositoryInterface
 {
@@ -39,7 +40,6 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
 
     public function getListAdminsToSendNotice($listUser)
     {
-
         return $this->model->whereIn('id', $listUser)->get();
     }
 
@@ -61,4 +61,27 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
             ->delete();
     }
 
+    public function getRoles($idUsersHasrole)
+    {
+        return $this->model->get()->load('roles')->whereIn('id', $idUsersHasrole);
+    }
+
+    public function checkMail($email)
+    {
+        return $this->model->where('email', $email)->count();
+    }
+
+    public function createUser($request = [])
+    {
+        return $this->model->firstOrCreate([
+            'name' => $request['name'],
+            'email' => $request['email'],
+            'password' => Hash::make($request['password']),
+        ]);
+    }
+
+    public function getRoleUser($id)
+    {
+        return $this->model->find($id)->roles()->pluck('id')->toArray();
+    }
 }

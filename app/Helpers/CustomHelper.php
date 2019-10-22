@@ -2,7 +2,7 @@
 use App\Models\Book;
 
 if (!function_exists('avgRate')) {
-     function avgRate($bookRate)
+    function avgRate($bookRate)
     {
         $numberRates = $bookRate->count();
         $totalStars = 0;
@@ -10,6 +10,17 @@ if (!function_exists('avgRate')) {
         $averageStars = ($numberRates != 0) ? floor($totalStars / $numberRates) : 0;
 
         return $averageStars;
+    }
+
+    function getDataFromAdminNotification($notification)
+    {
+        $notice = $notification->data;
+        $user = User::find($notice['sender']);
+        $data = [];
+        $data['user'] = $user->name;
+        $data['idRequire'] = $notice['id'];
+        $data['nameBook'] = $notice['book_name'];
+        return $data;
     }
 }
 

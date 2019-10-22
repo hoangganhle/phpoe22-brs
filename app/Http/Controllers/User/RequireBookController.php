@@ -60,11 +60,16 @@ class RequireBookController extends Controller
         $data = $request->all();
         $data['user_id'] = $this->userRepo->getAuthId();
         $requestNewbook = $this->requireBookRepo->create($data);
+        $admins = $this->roleUserRepo->getUserAsAdmin();
+        $listAdminsToSendNotice = $this->userRepo->getListAdminsToSendNotice($admins);
+        if ($requestNewbook->wasRecentlyCreated == true) {
+            \Notification::send($listAdminsToSendNotice, new NoticeToAdminWhenUserSendNewRequestBook($requestNewbook));
 
-        if($requestNewbook->wasRecentlyCreated == true) {
-            event(new CreateRequireAddNewBookEvent($requestNewbook));
+            $user = $this->userRepo->getAuth();
+            \Notification::send($user, new NoticeToUserwhenTheirRequestNewBookSuccess($requestNewbook));
+
+            event(new SendMailWhenRequestNewBookSuccessEvent($requestNewbook));
         }
-
         return redirect(route('require.index'))->with('status', trans('client.add_success'));
     }
 

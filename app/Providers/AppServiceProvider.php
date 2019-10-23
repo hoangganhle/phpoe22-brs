@@ -8,6 +8,8 @@ use App\Models\Category;
 use App\Models\Author;
 use App\Models\Publisher;
 use App\Models\Notification;
+use Auth;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -93,12 +95,13 @@ class AppServiceProvider extends ServiceProvider
 
         });
 
-        View::composer('admin.layouts.header', function ($view) {
-            $notifications = Auth::user()->notifications->take(config('limitdata.notification'));
-            $view->with([
-               'notifications' => $notifications,
-
-            ]);
+        View::composer(['admin.layouts.header', 'user.layouts.menu'], function ($view) {
+            if (Auth::check()) {
+                $notifications = Auth::user()->notifications->take(config('limitdata.notice'));
+                $view->with([
+                   'notifications' => $notifications,
+                ]);
+            }
         });
 
     }
